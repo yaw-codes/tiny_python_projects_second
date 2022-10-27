@@ -66,4 +66,19 @@ def test_vowel_case_match():
     for word in vowel_words:
         out = getoutput(f'{prg} {word.upper()}')
         assert out.strip() == template.format('An', word.upper())
+        
+def test_side():
+    """-s -> starboard"""
+    
+    for flag in ["-s","--side"]:
+        rv, out = getstatusoutput(f'{prg} {flag}')
+        assert rv == 0
+        assert out.lower().startswith('usage')
+        
+
+    for word in vowel_words:
+        out = getoutput(f'{prg} {word.upper()}')
+        assert out.strip() == template.format('An', word.upper())
+
+
 
