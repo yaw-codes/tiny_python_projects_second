@@ -21,6 +21,7 @@ def get_args():
 
     parser.add_argument('text',
                         metavar='text',
+                        nargs="+",
                         type=str,
                         help='input string or file')
     
@@ -31,18 +32,22 @@ def get_args():
     
 
     parser.add_argument('-o',
-                        '--outfile',
+                        '--outdir',
                         help='output filename',
                         metavar='str',
                         type=str,
                         default='')
     args = parser.parse_args()
-
-    if os.path.isfile(args.text):
-        with open(args.text) as file:
-            args.text = file.read().rstrip()
-    else:
-        args.text = io.StringIO(args.text + "\n")
+    
+    arg_files = []
+    for wordline in args.text:
+        if os.path.isfile(wordline):
+            with open(wordline) as file:
+                arg_files.append(file.read().rstrip())
+        else:
+            arg_files.append(wordline + "\n")
+    
+    args.text = arg_files
     return args
 
 
@@ -53,12 +58,12 @@ def main():
     args = get_args()
     
 
-    out_fh = open(args.outfile, "wt") if args.outfile else sys.stdout
+    out_fh = open(args.outdir, "wt") if args.outdir else sys.stdout
     for line in args.text:
         if args.lower:
-            out_fh.write(line.lower())
+            out_fh.write(line.lower() + "\n")
         else:   
-            out_fh.write(line.upper())
+            out_fh.write(line.upper() + "\n")
     out_fh.close()
 
 
