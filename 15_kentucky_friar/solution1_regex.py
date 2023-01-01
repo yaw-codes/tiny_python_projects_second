@@ -34,7 +34,7 @@ def main():
         print(''.join(map(fry, re.split(r'(\W+)', line.rstrip()))))
 
 
-# --------------------------------------------------
+c
 def fry(word):
     """Drop the `g` from `-ing` words, change `you` to `y'all`"""
 
